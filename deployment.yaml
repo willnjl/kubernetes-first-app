@@ -8,6 +8,8 @@ spec:  #spec for overall deployment
     matchLabels: #only apps matching both these labels will be controlled by this deployment, not just one or the other.
       app: first-app
       tier: backend   
+      # matchExpressions: 
+      #   - {key: app, operator: NotIn, values: [second-app, first-app]}
   template:  # templates always refer to pods
     metadata: 
       labels:

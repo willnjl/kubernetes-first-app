@@ -19,5 +19,12 @@ spec:  #spec for overall deployment
       containers:
         - name: first-node
           image: willnjl/kub-first-app:2
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 3
+            initialDelaySeconds: 5
         # - name: ...
         #   image: ...

@@ -11,6 +11,14 @@ kubectl apply -f=deployment.yaml
 - `-f` is for file
 - to update simply reapply same command
 
+`pullImageOption` 
+
+The imagePullPolicy for a container and the tag of the image affect when the kubelet attempts to pull (download) the specified image.
+
+`pullImageOption:always`
+
+every time the kubelet launches a container, the kubelet queries the container image registry to resolve the name to an image digest. If the kubelet has a container image with that exact digest cached locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved digest, and uses that image to launch the container
+
 
 ## service.yaml
 

@@ -1,82 +1,38 @@
+# Declaritive notes
 
-# Kubernenetes First App Commands
+notes for lecuture on writing yaml files for managing kubernetes clusters
 
-commands for managing deployments imperatively using command line.
+## deployment.yaml
 
-Tested using minikube VM box.
-
-## starting development
-
-`minicube start`
-- start kubernetes  in VM development server
-- used for practice
-
-`minikube dashboard`
-- Open cluster dashboard
-- attached
-
-`kubectl`
-- kubectl controls the Kubernetes cluster manager.
-- always ran localy.
-- send commands to Master node aka cluster
-
-## deployment
-
-
-`kubectl create deployment first-app --image=willnjl/kub-first-app`
-- sends command to master node (control plane) to build the image.
-- the Master node will then analyze the currently running pods and find the best node for the new pods
-- aguments deployment-name && --image=image 
-- will restart crashed pods automatically
-
-`kubectl get deployments`
-- view deployment status.
-- will show 0/1 ready until start up is complete.
-
-`kubectl expose deployment first-app --type=LoadBalancer --port 8080`
-- using the Loadbalancer type creates a stable IP for pods and balances incoming traffic.
-- It is only availible if your hosting e.g AWS.
-- creates a service
-- exposes port for external access
-
-
-`kubectl get services`
-- show availible services
-- will show externally accessible IP on hosted env
-- external IP will shown as pending on minikube ( not accessible )
-
-`minikube service first-app`
-- used to view our application hosted on minukube
-- minukube specific (not availible on hosted deployment)
-
-`kubectl scale deployment/first-app --replicas=3`
-- create 3 pods
-- traffic will be evenly distobuted by the loadbalancer
-- if one pod crashes - traffic will be directed to working pod while the other restarts
-
-
-### updating a deployment
-
-
-1. update code
-2. rebuild image with version tag incremented
-3. push image version to remote repo
-4. run 
 ```
-kubectl set image deployments/first-app kub-first-app=willnjl/kub-first-app:2
+kubectl apply -f=deployment.yaml
 ```
-   - `kub-first-app` is the image name that we are changing
-   - `deployments/first-app` is the name of the deployment
-   - `willnjl/kub-first-app:2` is the version we want to replace it with
+- run deployment on connected cluster
+- `-f` is for file
+- to update simply reapply same command
 
-5. `kubectl rollout status deployments/first-app` 
-   - check status of rollout
 
-### Rollout Rollback / Undo Deployment
+## service.yaml
 
-`kubectl rollout undo deployments/first-app`
+remember that you do not control deployments with a service! 
+services control pods.
 
-## Cleanup
+without services Pods are hard to reach and communicate with.
 
-- `kubectl delete service first-app`
-- `kubectl delete deployment first-app`
+
+```
+kubectl apply -f=service.yaml
+```
+- create service object
+
+ ## Cleanup
+
+you can delete imperatively using the service or deployment name. eg.
+```
+kubectl delete deployment first-app-deployment
+```
+or you can you can use the .yaml files to specify which objects you want to remove
+```
+kubectl delete -f=deployment.yaml,service.yaml
+```
+

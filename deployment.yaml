@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: first-app-deployment
+  labels:
+    group: example
 spec:  #spec for overall deployment
   replicas: 1
   selector: # required by k8 to match pods to deployments so this deployment know which pods should be controlled by it.

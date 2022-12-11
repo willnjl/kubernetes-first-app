@@ -44,3 +44,9 @@ or you can you can use the .yaml files to specify which objects you want to remo
 kubectl delete -f=deployment.yaml,service.yaml
 ```
 
+you can also use labels
+
+```
+kubectl delete deployments,services -l group=example
+```
+

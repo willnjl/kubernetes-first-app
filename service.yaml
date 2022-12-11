@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend
+  labels:
+    group: example
 spec:
   selector: #matchLabel not required as in deployments.yaml as it is the only availible option
     app: first-app

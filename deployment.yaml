@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: first-app-deployment
+spec:  #spec for overall deployment
+  replicas: 1
+  selector: # required by k8 to match pods to deployments so this deployment know which pods should be controlled by it.
+    matchLabels: #only apps matching both these labels will be controlled by this deployment, not just one or the other.
+      app: first-app
+      tier: backend   
+  template:  # templates always refer to pods
+    metadata: 
+      labels:
+        app: first-app
+        tier: backend
+    spec: #spec for pods which are created for deployment
+      containers:
+        - name: first-node
+          image: willnjl/kub-first-app:2
+        # - name: ...
+        #   image: ...

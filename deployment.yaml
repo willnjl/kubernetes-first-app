@@ -5,7 +5,7 @@ metadata:
   labels:
     group: example
 spec:  #spec for overall deployment
-  replicas: 1
+  replicas: 2
   selector: # required by k8 to match pods to deployments so this deployment know which pods should be controlled by it.
     matchLabels: #only apps matching both these labels will be controlled by this deployment, not just one or the other.
       app: first-app
@@ -22,11 +22,20 @@ spec:  #spec for overall deployment
         - name: first-node
           image: willnjl/kub-first-app:2
           imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /app/story
+              name: story-volume
           livenessProbe:
             httpGet:
               path: /
               port: 8080
             periodSeconds: 3
             initialDelaySeconds: 5
-        # - name: ...
-        #   image: ...
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"  
+      volumes:
+        - name: story-volume
+          persistentVolumeClaim:
+            claimName: host-pvc
